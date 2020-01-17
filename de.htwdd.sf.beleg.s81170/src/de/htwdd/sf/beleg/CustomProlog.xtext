@@ -1,0 +1,75 @@
+grammar de.htwdd.sf.beleg.CustomProlog with org.eclipse.xtext.common.Terminals
+
+generate customProlog "http://www.htwdd.de/sf/beleg/CustomProlog"
+
+Model:
+	expressions+=Prologdsl*;
+	
+Prologdsl:
+	program=Program exquery=Exquery
+;
+
+Program:
+	clauses+=Clause+
+;
+Exquery:
+	'?-' query=Query '.'
+;
+
+Query:
+	p+=Predicate (',' p+=Predicate)*
+;
+
+Clause:
+	( => fact=Fact | rule=Rule)
+;
+
+Fact:
+	predicate=Predicate '.'
+;
+
+Rule:
+	rule=Predicate ':-' query=Query '.'
+;
+
+Predicate:
+	functor=Functor '(' term+=Term (',' term+=Term)* ')'  
+;
+
+Functor:
+	funcName=IDENT
+;
+
+Term:
+	atom=Atom | list=List
+;
+
+Atom:
+	ident=IDENT | ident=NUMBER | ident=VARIABLE
+;
+
+List:
+	{List} '[]' | nonempty=NonEmptyList
+;
+
+NonEmptyList:
+	'[' folge=Folge ']' | '[' (atom=Atom '|' term=Term) ']'
+	
+;
+
+Folge:
+	atom+=Atom (',' atom+=Atom)*
+;
+
+terminal IDENT:
+	('a'..'z')('a'..'z'|'A'..'Z'|'_'|'0'..'9')*	
+;
+
+
+terminal VARIABLE:
+	('A'..'Z')	
+;
+
+terminal NUMBER:
+	INT
+;

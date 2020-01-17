@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$de/d69/classjava__cup_1_1nonassoc__action.html" title="{java_cup.nonassoc_action\n||+ nonassoc_action()\l+ kind()\l+ equals()\l+ equals()\l+ hashCode()\l+ toString()\l}" alt="" coords="5,273,184,434"/>
+<area shape="rect" id="node5" href="$db/dea/classjava__cup_1_1reduce__action.html" title="{java_cup.reduce_action\n|# _reduce_with\l|+ reduce_action()\l+ reduce_with()\l+ kind()\l+ equals()\l+ equals()\l+ hashCode()\l+ toString()\l}" alt="" coords="208,265,371,442"/>
+<area shape="rect" id="node7" href="$dc/d25/classjava__cup_1_1shift__action.html" title="{java_cup.shift_action\n|# _shift_to\l|+ shift_action()\l+ shift_to()\l+ kind()\l+ equals()\l+ equals()\l+ hashCode()\l+ toString()\l}" alt="" coords="395,265,541,442"/>
+</map>

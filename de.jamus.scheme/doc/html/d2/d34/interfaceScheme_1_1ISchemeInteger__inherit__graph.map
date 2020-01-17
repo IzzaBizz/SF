@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node7" href="$dc/d31/interfaceScheme_1_1ISchemeDouble.html" title="{Scheme.ISchemeDouble\n||}" alt="" coords="5,686,173,767"/>
+<area shape="rect" id="node11" href="$d7/d42/classScheme_1_1SchemeInteger.html" title="{Scheme.SchemeInteger\n|~ ivalue\l|+ SchemeInteger()\l+ getIValue()\l+ getDValue()\l+ SchemeInteger()\l+ SchemeInteger()\l+ eqp()\l+ equalp()\l+ sprint()\l+ print()\l+ printp()\land 4 more...}" alt="" coords="197,606,363,847"/>
+<area shape="rect" id="node2" href="$d6/d90/interfaceScheme_1_1ISchemeNumber.html" title="{Scheme.ISchemeNumber\n||+ numberp()\l+ numberstring()\l+ positivep()\l+ zerop()\l+ negativep()\l}" alt="" coords="97,281,271,426"/>
+<area shape="rect" id="node4" href="$d7/d97/interfaceScheme_1_1ISchemeObject.html" title="{Scheme.ISchemeObject\n||+ expand()\l+ expandall()\l+ eval()\l+ nullp()\l+ cons()\l+ eqp()\l+ equalp()\l+ sprint()\l+ printp()\l+ print()\l}" alt="" coords="101,6,267,231"/>
+<area shape="rect" id="node9" href="$d9/de7/classScheme_1_1SchemeDouble.html" title="{Scheme.SchemeDouble\n|~ dvalue\l|+ SchemeDouble()\l+ SchemeDouble()\l+ getDValue()\l+ eqp()\l+ equalp()\l+ sprint()\l+ print()\l+ printp()\l+ integerp()\l+ realp()\land 4 more...}" alt="" coords="7,897,172,1138"/>
+</map>

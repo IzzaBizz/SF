@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$dd/d5a/classjava__cup_1_1internal__error.html#a77fd719e56809aa8674fdd2249be6e3e" title="java_cup.internal_error.crash" alt="" coords="285,81,480,109"/>
+<area shape="rect" id="node5" href="$d1/d94/classjava__cup_1_1lr__item__core.html#a33e4f8867bd3dee4c5b885f262bb7477" title="java_cup.lr_item_core.to_simple_string" alt="" coords="256,131,509,159"/>
+<area shape="rect" id="node7" href="$dd/d94/classjava__cup_1_1production__part.html#a11952af690f0281a885ce4015e68296b" title="java_cup.production_part.is_action" alt="" coords="557,5,787,33"/>
+<area shape="rect" id="node9" href="$d1/ddc/classjava__cup_1_1production.html#ab1d84dd19ab5b1baa56d8a7143d646b4" title="java_cup.production.lhs" alt="" coords="591,55,753,83"/>
+<area shape="rect" id="node11" href="$d1/df5/classjava__cup_1_1symbol.html#a2886f199df09de270d6ee498f7044793" title="java_cup.symbol.name" alt="" coords="593,106,751,134"/>
+<area shape="rect" id="node13" href="$d1/ddc/classjava__cup_1_1production.html#aa88a224724f72ff013f5f57cad4d5480" title="java_cup.production.rhs" alt="" coords="591,157,753,185"/>
+<area shape="rect" id="node15" href="$d1/ddc/classjava__cup_1_1production.html#a10a0d078dc38ec32281aa591a9d4684f" title="java_cup.production.rhs_length" alt="" coords="568,207,776,235"/>
+<area shape="rect" id="node17" href="$df/dee/classjava__cup_1_1symbol__part.html#a5acfa0ec5253bc3481bf93719cd8e8d8" title="java_cup.symbol_part.the_symbol" alt="" coords="560,258,784,286"/>
+</map>

@@ -1,0 +1,559 @@
+Pair.java
+=========
+Aenderungen
+-----------
+von
+---
+
+    public SchemeNumber remainder() {
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    int divident, divisor, quotient; 
+	    divident = ((SchemeNumber)car()).value; 
+	    Pair x = (Pair)cdr();  // Rest der Liste 
+	    if( ! x.nullp() )   // mehr als 1 Parameter uebergeben ? 
+		{ 
+		    divisor = ((SchemeNumber)((Pair)x).car()).value; 
+		    if( divisor != 0 ) 
+			{ 
+			    quotient = divident % divisor; 
+			} 
+		    else  // Division durch Null 
+			{ 
+			    System.out.print("Fehler: (remainder ");
+		            System.out.print(divident);
+                            System.out.println(" 0)");
+			    quotient = 0;
+			} 
+		} 
+	    else  // falls nur 1 Parameter uebergeben wurde 
+		{ 
+			System.out.println("Fehler: Falsche Anzahl Paramter");
+			quotient = 0; 
+		} 
+	    res = new SchemeNumber(new Integer(quotient)); 
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		System.out.println("Fehler: Falsche Anzahl Paramter");
+		res = new SchemeNumber(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+nach
+----
+    public SchemeNumber remainder() {
+	SchemeNumber res;  // Returnwert
+	double divisor_i; 
+	if( ! nullp() ) { 
+	    SchemeNumber divident, divisor, quotient; 
+	    divident = ((SchemeNumber)car()); 
+	    Pair x = (Pair)cdr();  // Rest der Liste 
+	    if( ! x.nullp() )   // mehr als 1 Parameter uebergeben ? 
+		{
+		    divisor = ((SchemeNumber)((Pair)x).car());
+		    
+		    if(divisor instanceof SchemeInteger)
+			divisor_i = ((SchemeInteger)divisor).ivalue;
+		    else
+			divisor_i = ((SchemeDouble)divisor).dvalue;
+		    
+		    if( divisor_i != 0 ) 
+			{  
+			    if (divident instanceof SchemeInteger)
+				if (divisor instanceof SchemeInteger)
+				    quotient = new SchemeInteger(new Integer (((SchemeInteger)divident).ivalue % ((SchemeInteger)divisor).ivalue));
+				else
+				    quotient = new SchemeDouble(new Double (new Double(((SchemeInteger)divident).ivalue % ((SchemeDouble)divisor).dvalue).intValue()));
+			    else
+				if (divisor instanceof SchemeInteger)
+				    quotient = new SchemeDouble(new Double (new Double(((SchemeDouble)divident).dvalue % ((SchemeInteger)divisor).ivalue).intValue()));
+				else
+				    quotient = new SchemeDouble(new Double (new Double(((SchemeDouble)divident).dvalue % ((SchemeDouble)divisor).dvalue).intValue()));
+			} 
+		    else  // Division durch Null 
+			{ 
+			    System.out.print("Fehler: (remainder ");
+		            System.out.print(divident);
+                            System.out.println(" 0)");
+			    quotient = new SchemeInteger(new Integer(0));
+			} 
+		} 
+	    else  // falls nur 1 Parameter uebergeben wurde 
+		{ 
+			System.out.println("Fehler: Falsche Anzahl Paramter");
+			quotient = new SchemeInteger(new Integer(0));
+		}
+	    if(quotient instanceof SchemeInteger)
+		res = new SchemeInteger(new Integer(((SchemeInteger)quotient).ivalue));
+	    else
+		res = new SchemeDouble(new Double(((SchemeDouble)quotient).dvalue));
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		System.out.println("Fehler: Falsche Anzahl Paramter");
+		res = new SchemeNumber(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+von
+---
+    public SchemeBoolean eq () { 
+	// Zahlenwerte identisch ? 
+	if( ((SchemeNumber)car()).value ==
+	    ((SchemeNumber)(((Pair)cdr()).car())).value ) { 
+	    return RunEnv.bTrue; 
+	} 
+	else { 
+	    return RunEnv.bFalse; 
+	} 
+    } 
+
+nach
+----
+    public SchemeBoolean eq () {
+	Pair x = this;
+	SchemeObject n1 = ((Pair)x).car(); 
+	SchemeObject n2 = ((Pair)((Pair)x).cdr()).car();
+	if (n1 instanceof SchemeInteger)
+		if (n2 instanceof SchemeInteger) 
+		    if (((SchemeInteger)n1).ivalue == ((SchemeInteger)n2).ivalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;
+		else
+		    if (((SchemeInteger)n1).ivalue == ((SchemeDouble)n2).dvalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;
+	else
+		if (n2 instanceof SchemeInteger)
+		    if (((SchemeDouble)n1).dvalue == ((SchemeInteger)n2).ivalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;
+		else
+		    if (((SchemeDouble)n1).dvalue == ((SchemeDouble)n2).dvalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;   
+    } 
+
+von
+---
+    public SchemeBoolean lt () { 
+	// Zahlenwerte identisch ? 
+	if( ((SchemeNumber)car()).value <
+	    ((SchemeNumber)(((Pair)cdr()).car())).value ) { 
+	    return RunEnv.bTrue; 
+	} 
+	else { 
+	    return RunEnv.bFalse; 
+	} 
+    } 
+
+nach
+----
+    public SchemeBoolean lt () { 
+	Pair x = this;
+	SchemeObject n1 = ((Pair)x).car(); 
+	SchemeObject n2 = ((Pair)((Pair)x).cdr()).car();
+	if (n1 instanceof SchemeInteger)
+		if (n2 instanceof SchemeInteger) 
+		    if (((SchemeInteger)n1).ivalue < ((SchemeInteger)n2).ivalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;
+		else
+		    if (((SchemeInteger)n1).ivalue < ((SchemeDouble)n2).dvalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;
+	else
+		if (n2 instanceof SchemeInteger)
+		    if (((SchemeDouble)n1).dvalue < ((SchemeInteger)n2).ivalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;
+		else
+		    if (((SchemeDouble)n1).dvalue < ((SchemeDouble)n2).dvalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;
+    } 
+
+von
+---
+    public SchemeBoolean gt () { 
+	// Zahlenwerte identisch ? 
+	if( ((SchemeNumber)car()).value >
+	    ((SchemeNumber)(((Pair)cdr()).car())).value ) { 
+	    return RunEnv.bTrue; 
+	} 
+	else { 
+	    return RunEnv.bFalse; 
+	} 
+    } 
+
+nach
+----
+    public SchemeBoolean gt () {
+	Pair x = this;
+	SchemeObject n1 = ((Pair)x).car(); 
+	SchemeObject n2 = ((Pair)((Pair)x).cdr()).car();
+	if (n1 instanceof SchemeInteger)
+		if (n2 instanceof SchemeInteger) 
+		    if (((SchemeInteger)n1).ivalue > ((SchemeInteger)n2).ivalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;
+		else
+		    if (((SchemeInteger)n1).ivalue > ((SchemeDouble)n2).dvalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;
+	else
+		if (n2 instanceof SchemeInteger)
+		    if (((SchemeDouble)n1).dvalue > ((SchemeInteger)n2).ivalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;
+		else
+		    if (((SchemeDouble)n1).dvalue > ((SchemeDouble)n2).dvalue)
+			return RunEnv.bTrue;
+		    else
+			return RunEnv.bFalse;  
+    } 
+
+von
+---
+
+    public Pair member(SchemeObject e){
+
+        if (this.nullp())
+            return RunEnv.nilval;
+        else
+            if ((e instanceof SchemeNumber)&&(this.car() instanceof SchemeNumber))
+                {
+                       SchemeNumber n1 = (SchemeNumber)e;
+                       SchemeNumber n2 = (SchemeNumber)this.car();
+
+                    if (n1.value == n2.value)
+                        return this;
+                    else
+                        return ((Pair)this.cdr()).member(e);
+                }
+            else
+            if (this.car().equals(e))
+                return this;
+            else
+                return ((Pair)this.cdr()).member(e);
+    }
+
+nach
+----
+    public Pair member(SchemeObject e){
+
+        if (this.nullp())
+            return RunEnv.nilval;
+        else
+            if ((e instanceof SchemeNumber)&&(this.car() instanceof SchemeNumber))
+                {
+                       SchemeObject n1 = (SchemeObject)e;
+                       SchemeObject n2 = (SchemeObject)this.car();
+
+		       if(n1 instanceof SchemeInteger)
+			   if(n2 instanceof SchemeInteger)
+			       if (((SchemeInteger)n1).ivalue == ((SchemeInteger)n2).ivalue)
+				   return this;
+			       else
+				   return ((Pair)this.cdr()).member(e);
+			   else
+			       if (((SchemeInteger)n1).ivalue == ((SchemeDouble)n2).dvalue)
+				   return this;
+			       else
+				   return ((Pair)this.cdr()).member(e);
+		       else
+			   if (n2 instanceof SchemeInteger)
+			       if (((SchemeDouble)n1).dvalue == ((SchemeInteger)n2).ivalue)
+				   return this;
+			       else
+				   return ((Pair)this.cdr()).member(e);
+			   else
+			       if (((SchemeDouble)n1).dvalue == ((SchemeDouble)n2).dvalue)
+				   return this;
+			       else
+				   return ((Pair)this.cdr()).member(e);   
+                }
+            else
+            if (this.car().equals(e))
+                return this;
+            else
+                return ((Pair)this.cdr()).member(e);
+    }
+
+von
+---
+    public SchemeNumber iexpt() { 
+	// x hoch y (mind. 2 Parameter) 
+	// (falls 2 Parameter: Ergebnis = Parameter1 "hoch" Parameter2, 
+	//  falls mehr als 2 Parameter verfuegbar sind: 
+	//  Ergebnis = ((Arg1 "hoch" Arg2) "hoch" Parameter3) "hoch" ..., 
+	//  falls kein oder nur 1 Parameter verfuegbar ist, 
+	//  wird 0 zurueckgegeben) 
+	//  (bis Fehler anders abgefangen wird, wird bei 
+	//  Division durch Null 0 zurueckgegeben) 
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    int basis, exponent, tmp; 
+	    basis = ((SchemeNumber)car()).value; 
+	    Pair x = (Pair)cdr();  // Rest der Liste 
+	    if( ! x.nullp() )  // mind. 2 Parameterwerte verfuegbar ? 
+		{ 
+		    while(! x.nullp()) 
+			{ 
+			    exponent = ((SchemeNumber)((Pair)x).car()).value; 
+			    tmp = 1; 
+			    for(int i=1; i<= Math.abs(exponent); i++) 
+				{ 
+				    tmp *= basis; 
+				} 
+			    basis = tmp;   
+			    // falls (exponent == 0) : tmp = 1  (x hoch 0 = 1) 
+			    if(exponent < 0) { 
+				// basis = 1 / basis; 
+				if( basis != 0 ) 
+				    { 
+					basis = 1 / basis; 
+				    } 
+				else   // Division durch 0 
+				    { 
+					basis = 0; 
+					break; // Berechnung (while) abbrechen 
+				    } 
+			    } 
+			    x = (Pair)((Pair)x).cdr(); 
+			} 
+		} 
+	    else  // falls nur 1 Parameterwert verfuegbar 
+		{ 
+		    basis = 0; 
+		} 
+	    res = new SchemeNumber(new Integer(basis)); 
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeNumber(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+nach
+----
+ public SchemeNumber iexpt() { 
+	// x hoch y (mind. 2 Parameter) 
+	// (falls 2 Parameter: Ergebnis = Parameter1 "hoch" Parameter2, 
+	//  falls mehr als 2 Parameter verfuegbar sind: 
+	//  Ergebnis = ((Arg1 "hoch" Arg2) "hoch" Parameter3) "hoch" ..., 
+	//  falls kein oder nur 1 Parameter verfuegbar ist, 
+	//  wird 0 zurueckgegeben) 
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    SchemeNumber basis, exponent; //, tmp; 
+	    basis = ((SchemeNumber)car()); 
+	    Pair x = (Pair)cdr();  // Rest der Liste 
+	    if( ! x.nullp() )  // mind. 2 Parameterwerte verfuegbar ? 
+		{ 
+		    while(! x.nullp()) 
+			{ 
+			    exponent = (SchemeNumber)((Pair)x).car(); 
+			    
+			    if (basis instanceof SchemeInteger)
+				if (exponent instanceof SchemeInteger){
+				    basis = new SchemeDouble(new Double(Math.pow((((SchemeInteger)basis).ivalue),(((SchemeInteger)exponent).ivalue))));
+			    	if(((SchemeDouble)basis).dvalue == (Math.round(((SchemeDouble)basis).dvalue)))
+						    basis = new SchemeInteger(new Integer((new Double(((SchemeDouble)basis).dvalue).intValue())));
+				}
+				else
+				    basis = new SchemeDouble(new Double(Math.pow((((SchemeInteger)basis).ivalue),(((SchemeDouble)exponent).dvalue))));
+			    else
+				if (exponent instanceof SchemeInteger)
+				    basis = new SchemeDouble(new Double(Math.pow((((SchemeDouble)basis).dvalue),(((SchemeInteger)exponent).ivalue)))); 
+				else
+				    basis = new SchemeDouble(new Double(Math.pow((((SchemeDouble)basis).dvalue),(((SchemeDouble)exponent).dvalue))));
+ 
+			    x = (Pair)((Pair)x).cdr(); 
+			} 
+		} 
+	    else  // falls nur 1 Parameterwert verfuegbar 
+		{ 
+		    basis = new SchemeInteger(new Integer(0)); 
+		}
+	    if (basis instanceof SchemeInteger)
+		res = new SchemeInteger(new Integer(((SchemeInteger)basis).ivalue));
+	    else
+		res = new SchemeDouble(new Double(((SchemeDouble)basis).dvalue));
+	}
+	else  // falls kein Parameter uebergeben wurde 
+	    res = new SchemeInteger(new Integer(0)); 
+	return res; 
+    } 
+
+von
+---
+
+    public SchemeNumber abs() {
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    int absolut, wert; 
+	    wert = ((SchemeNumber)car()).value; 
+	   
+	    absolut = Math.abs(wert);
+	
+	    res = new SchemeNumber(new Integer(absolut)); 
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeNumber(new Integer(0)); 
+	    } 
+	return res; 
+    }
+
+nach
+----
+    public SchemeNumber abs() {
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    SchemeNumber wert; 
+	    wert = (SchemeNumber)car();
+
+	    if (wert instanceof SchemeInteger)
+		res = new SchemeInteger(new Integer (Math.abs(((SchemeInteger)wert).ivalue)));
+	    else
+		res = new SchemeDouble(new Double (Math.abs(((SchemeDouble)wert).dvalue)));
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeInteger(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+von
+---
+    public SchemeNumber length() {
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) {
+	    int anzahl = 0;
+	    Pair x = (Pair)car();  // Rest der Liste 
+
+ 	    if( ! x.nullp() )   // mehr als 1 Parameter uebergeben ? 
+ 		{
+ 		    while( ! x.nullp() ) 
+ 			{ 
+			    anzahl = anzahl + 1;
+			    x = (Pair)((Pair)x).cdr(); 
+ 			} 
+ 		} 
+	    res = new SchemeNumber(new Integer(anzahl)); 
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeNumber(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+nach
+----
+    public SchemeNumber length() {
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) {
+	    int anzahl = 0;
+	    Pair x = (Pair)car();  // Rest der Liste 
+
+ 	    if( ! x.nullp() )   // mehr als 1 Parameter uebergeben ? 
+ 		{
+ 		    while( ! x.nullp() ) 
+ 			{ 
+			    anzahl = anzahl + 1;
+			    x = (Pair)((Pair)x).cdr(); 
+ 			} 
+ 		} 
+	    res = new SchemeInteger(new Integer(anzahl)); 
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeInteger(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+
+neu
+---
+
+    public SchemeNumber exactinexact() {
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    SchemeNumber wert; 
+	    wert = (SchemeNumber)car();
+
+	    if (wert instanceof SchemeInteger)
+		res = new SchemeDouble(new Double (((SchemeInteger)wert).ivalue));
+	    else
+		res = new SchemeDouble(new Double (((SchemeDouble)wert).dvalue));
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeInteger(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+    public SchemeNumber inexactexact() {
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    SchemeNumber wert; 
+	    wert = (SchemeNumber)car();
+
+	    if (wert instanceof SchemeInteger)
+		res = new SchemeInteger(new Integer (((SchemeInteger)wert).ivalue));
+	    else
+		res = new SchemeInteger(new Integer ((int)Math.round(((SchemeDouble)wert).dvalue)));
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeInteger(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+in RunEnv.java
+==============
+in init()
+---------
+neu
+---
+	newSymEntry(new SchemeFunction("exact->inexact","Pair"));
+	newSymEntry(new SchemeFunction("inexact->exact","Pair"));
+
+in newSymEntry(StElem x)
+------------------------
+neu
+---
+
+	        if (n.equals("exact->inexact")) {
+		    fname="exactinexact";
+                    x.setValue(bClass.getDeclaredMethod(fname,null)); 
+		    ((SchemeFunction)x).setParams(null); 
+		    x.setPname(fname);  
+		} else 
+		if (n.equals("inexact->exact")) {
+		    fname="inexactexact";
+                    x.setValue(bClass.getDeclaredMethod(fname,null)); 
+		    ((SchemeFunction)x).setParams(null); 
+		    x.setPname(fname);  
+		} else  

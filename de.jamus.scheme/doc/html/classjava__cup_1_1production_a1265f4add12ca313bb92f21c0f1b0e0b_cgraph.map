@@ -1,0 +1,20 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classjava__cup_1_1action__part.html#aad6a297499ce4f572381ed761b913e29" title="java_cup.action_part.code_string" alt="" coords="307,5,525,33"/>
+<area shape="rect" id="node5" href="$classjava__cup_1_1production.html#af4e29432a09da226892c69f7e3c463f7" title="java_cup.production.declare_labels" alt="" coords="620,106,849,134"/>
+<area shape="rect" id="node19" href="$classjava__cup_1_1production.html#a766c0fa7360bd6d7cc42907a130bc8ab" title="java_cup.production.merge_adjacent_actions" alt="" coords="271,106,561,134"/>
+<area shape="rect" id="node21" href="$classjava__cup_1_1production.html#a4179d33be7329e62cc2a82249066c76d" title="java_cup.production.precedence_num" alt="" coords="292,157,540,185"/>
+<area shape="rect" id="node23" href="$classjava__cup_1_1production.html#acbaa29beb3baf1f6c430a80770945703" title="java_cup.production.precedence_side" alt="" coords="293,207,539,235"/>
+<area shape="rect" id="node25" href="$classjava__cup_1_1production.html#af8ea03e66808d6329c52335e50a9f01c" title="java_cup.production.remove_embedded_actions" alt="" coords="261,258,571,286"/>
+<area shape="rect" id="node38" href="$classjava__cup_1_1production.html#a102dd2fc745e786ba7c9ecc026580bae" title="java_cup.production.strip_trailing_action" alt="" coords="287,309,545,337"/>
+<area shape="rect" id="node7" href="$classjava__cup_1_1production__part.html#a511044d8a25d0d85c1871b754642e884" title="java_cup.production_part.label" alt="" coords="923,30,1125,58"/>
+<area shape="rect" id="node9" href="$classjava__cup_1_1production.html#aea0951f7d4a27c2f7222787cb70f354d" title="java_cup.production.make_declaration" alt="" coords="899,81,1149,109"/>
+<area shape="rect" id="node15" href="$classjava__cup_1_1symbol__part.html#a5acfa0ec5253bc3481bf93719cd8e8d8" title="java_cup.symbol_part.the_symbol" alt="" coords="912,131,1136,159"/>
+<area shape="rect" id="node17" href="$classjava__cup_1_1symbol.html#a3567efd7889a79d8dbd17cebf45f1f59" title="java_cup.symbol.stack_type" alt="" coords="929,182,1119,210"/>
+<area shape="rect" id="node11" href="$classjava__cup_1_1emit.html#a67bd8cefc971794f9ca5c97235b16d4c" title="java_cup.emit.lr_values" alt="" coords="1199,55,1359,83"/>
+<area shape="rect" id="node13" href="$classjava__cup_1_1emit.html#aeedeafc2d9eec9394ed0c19fa57ca2f4" title="java_cup.emit.pre" alt="" coords="1215,106,1343,134"/>
+<area shape="rect" id="node27" href="$classjava__cup_1_1production.html#a10a0d078dc38ec32281aa591a9d4684f" title="java_cup.production.rhs_length" alt="" coords="631,182,839,210"/>
+<area shape="rect" id="node29" href="$classjava__cup_1_1production.html#aa88a224724f72ff013f5f57cad4d5480" title="java_cup.production.rhs" alt="" coords="653,233,816,261"/>
+<area shape="rect" id="node31" href="$classjava__cup_1_1production__part.html#a11952af690f0281a885ce4015e68296b" title="java_cup.production_part.is_action" alt="" coords="620,283,849,311"/>
+<area shape="rect" id="node34" href="$classjava__cup_1_1non__terminal.html#afb5fdae13656d32ff16803637071eacd" title="java_cup.non_terminal.create_new" alt="" coords="621,334,848,362"/>
+<area shape="rect" id="node36" href="$classjava__cup_1_1non__terminal.html#a1d87687bad38dce3d8274a2087af5166" title="java_cup.non_terminal.non_terminal" alt="" coords="907,334,1141,362"/>
+</map>

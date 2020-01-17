@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$df/de3/classjava__cup_1_1emit.html#a91687740f2531cb42ea17bfbdf924976" title="java_cup.emit.emit_action_code" alt="" coords="200,5,413,33"/>
+<area shape="rect" id="node5" href="$df/de3/classjava__cup_1_1emit.html#a8b917942200bbfd72144158f873f800f" title="java_cup.emit.parser" alt="" coords="523,30,669,58"/>
+<area shape="rect" id="node11" href="$d1/ddc/classjava__cup_1_1production.html#aea0951f7d4a27c2f7222787cb70f354d" title="java_cup.production.make_declaration" alt="" coords="181,106,432,134"/>
+<area shape="rect" id="node7" href="$d2/d3b/classjava__cup_1_1Main.html#afa4d06389638a08aa6e8899b67e0f118" title="java_cup.Main.emit_parser" alt="" coords="824,30,1005,58"/>
+<area shape="rect" id="node9" href="$d2/d3b/classjava__cup_1_1Main.html#a1f4a1f30141fbad358edc7cde4c0c138" title="java_cup.Main.main" alt="" coords="1151,30,1292,58"/>
+<area shape="rect" id="node13" href="$d1/ddc/classjava__cup_1_1production.html#af4e29432a09da226892c69f7e3c463f7" title="java_cup.production.declare_labels" alt="" coords="481,106,711,134"/>
+<area shape="rect" id="node15" href="$d1/ddc/classjava__cup_1_1production.html#a1265f4add12ca313bb92f21c0f1b0e0b" title="java_cup.production.production" alt="" coords="1117,106,1325,134"/>
+<area shape="rect" id="node17" href="$d1/ddc/classjava__cup_1_1production.html#af8ea03e66808d6329c52335e50a9f01c" title="java_cup.production.remove_embedded_actions" alt="" coords="760,131,1069,159"/>
+</map>

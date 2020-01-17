@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     17.05.2013 13.25                                                        
+
+     jamus.scheme    
+     Ein Scheme-Interpreter.
+                   
+     H. Fritzsche
+     ====================================================================== -->
+<project name="de.jamus.scheme" default="build" basedir="..">
+	<description>
+            Ein Scheme-Interpreter in Java.
+    </description>
+
+	<!-- - - - - - - - properties - - - - - - - - -->
+
+	<property name="src" value="src" />
+	<property name="docs" value="doc" />
+	<property name="scripts" value="scripts" />
+	<property name="temp" value="temp" />
+	<property name="bin" value="bin" />
+	<property name="lib" value="lib" />
+	<property name="conf" value="conf" />
+	<property name="res" value="images" />
+	<property name="deploy" value="deploy" />
+
+	<property name="data" location="data" />
+	<property name="userdoc" location="${docs}${file.separator}user-guide" />
+	<property name="javadoc" location="${docs}${file.separator}javadoc" />
+	<property name="jdom" value="jdom.jar" />
+	<property name="classpath_bin" value=".${path.separator}${lib}/jdom.jar" />
+	<property name="classpath_manifest" value=". ${lib}/${jdom}" />
+	<property name="main.class" value="Gui.Gui" />
+	<property name="version" value="2013" />
+
+	<!-- - - - - - - - - targets - - - - - - - - - -->
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<!-- You can use it by typing ${DSTAMP} -->
+		<tstamp />
+		<!-- Create the bin directory structure used by build -->
+		<mkdir dir="${bin}" />
+	</target>
+
+
+	<target name="build" depends="init">
+		<!-- compile all sources (incl. java_cup) -->
+		<javac srcdir="${src}" classpath="${classpath_bin}" destdir="${bin}" debug="on" fork="yes" />
+
+		<!-- run JLex -->
+				<java fork="true" dir="${bin}" classpath="${bin}" classname="java_cup.Main">
+					<arg line="-grammar ..${file.separator}${src}${file.separator}java_cup${file.separator}qsm.cup -symbols Sym -parser Grm -nonterms" />
+				</java>
+		
+		<!-- run java_cup -->
+		<java fork="true" dir="${bin}" classpath="${bin}" classname="java_cup.Main">
+			<!-- aus qs.cup jetzt parser.cup gemacht: -->
+			<arg line="-grammar ..${file.separator}${src}${file.separator}java_cup${file.separator}parser.cup -symbols Sym -parser Grm -nonterms" />
+		</java>
+
+		<!-- move generated files to its standard location and overwrite the existing ones -->
+		<move todir="${src}${file.separator}Parse">
+			<fileset file="${bin}${file.separator}Sym.java" />
+			<fileset file="${bin}${file.separator}Grm.java" />
+		</move>
+
+		<!-- recompile parser source files (should compile only the two generated files) -->
+		<javac srcdir="${src}" classpath="${classpath_bin}" destdir="${bin}" debug="on" fork="yes" />
+	</target>
+
+
+	<target name="javadoc" description="generate javadoc" depends="build">
+		<javadoc access="public" author="true" classpath="${classpath_build}" destdir="${javadoc}" packagenames="*" source="1.4" sourcepath="${src}" splitindex="true" />
+	</target>
+
+
+	<target name="deploy" depends="build, javadoc" description="generate the distribution">
+
+		<!-- Create the distribution directory -->
+		<delete dir="${deploy}" includeEmptyDirs="true" failonerror="false" />
+		<mkdir dir="${deploy}" />
+		<mkdir dir="${deploy}${file.separator}${temp}" />
+
+		<!-- Put everything in ${bin} into the MyProject-${DSTAMP}.jar file -->
+		<jar destfile="${deploy}${file.separator}${temp}${file.separator}${ant.project.name}-${version}.jar" basedir="${bin}">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Main-Class" value="${main.class}" />
+				<attribute name="Class-Path" value="${classpath_manifest}" />
+				<attribute name="Implementation-Version" value="${version} ${TODAY}" />
+			</manifest>
+		</jar>
+		<zip destfile="${deploy}${file.separator}${ant.project.name}-${version}-bin.zip">
+			<fileset file="${deploy}${file.separator}${temp}${file.separator}${ant.project.name}-${version}.jar" />
+			<zipfileset prefix="${qsm_work}" dir="${qsm_work}">
+			</zipfileset>
+			<zipfileset prefix="${templates}" dir="${templates}">
+			</zipfileset>
+			<zipfileset prefix="${lib}" dir="${lib}">
+			</zipfileset>
+			<zipfileset prefix="${res}" dir="${res}">
+			</zipfileset>
+			<zipfileset prefix="${conf}" dir="${conf}">
+			</zipfileset>
+		</zip>
+		<copy file="${deploy}${file.separator}${ant.project.name}-${version}-bin.zip" tofile="${deploy}${file.separator}${ant.project.name}-${version}-bin-src.zip" />
+		<zip update="true" destfile="${deploy}${file.separator}${ant.project.name}-${version}-bin-src.zip">
+			<zipfileset prefix="${src}" dir="${src}">
+			</zipfileset>
+			<zipfileset prefix="${scripts}" dir="${scripts}">
+			</zipfileset>
+		</zip>
+		<copy file="${deploy}${file.separator}${ant.project.name}-${version}-bin-src.zip" tofile="${deploy}${file.separator}${ant.project.name}-${version}-bin-src-doc.zip" />
+		<zip update="true" destfile="${deploy}${file.separator}${ant.project.name}-${version}-bin-src-doc.zip">
+			<zipfileset prefix="${docs}" dir="${docs}">
+			</zipfileset>
+		</zip>
+		<delete dir="${deploy}${file.separator}${temp}" includeEmptyDirs="true" failonerror="false" />
+	</target>
+
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${bin} and ${deploy} directory trees -->
+		<delete dir="${bin}" failonerror="true" includeEmptyDirs="true" />
+		<delete dir="${deploy}" failonerror="false" includeEmptyDirs="true" />
+	</target>
+
+
+	<!-- - - - - - - - task definitions - - - - - - - - -->
+
+</project>
+

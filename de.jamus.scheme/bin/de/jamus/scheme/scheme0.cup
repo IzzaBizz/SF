@@ -1,0 +1,140 @@
+package Scheme;
+
+import java_cup.runtime.*;
+import java.io.*;
+
+/* Scheme Parser Specification for CUP.  
+ * Copyright (C) 2001 Hartmut Fritzsche <fritzsche@informatik.htw-dresden.de>
+ * There is NO WARRANTY on this code.
+ */
+
+parser code  {: 
+
+  public static void main(String args[]) throws Exception {
+    // new parser(new Yylex(System.in)).parse();
+    File textFile;
+    textFile=new File(args[0]);
+    InputStream in;	
+    in= new FileInputStream(textFile);
+    new parser(new Yylex(new BufferedInputStream((InputStream)in))).parse();	
+  }
+  public void syntax_error(java_cup.runtime.Symbol current) {
+    report_error("Syntax error (" + current.sym + ")", current);
+  }
+  
+:};
+
+
+/*
+init with {: new Yylex(System.in).init(); :};
+scan with {: return new Yylex(System.in).next_token(); :};
+*/
+
+terminal String SYMBOL,STRING,CHARACTER,BOOLEAN; 
+terminal Integer NUMBER;
+terminal Double DOUBLE;
+terminal DOT;
+terminal DOLLAR, QUOT, QUASIQUOT, UNQUOT, LPAREN, RPAREN, VBEGIN;
+
+non terminal s;
+non terminal datlist;
+non terminal SchemeObject datum;
+non terminal SchemeObject uqdat;
+non terminal SchemeObject list;
+non terminal SchemeObject rest;
+non terminal SchemeObject inhalt;
+non terminal SchemeObject inrest;
+non terminal SchemeObject vector;
+non terminal SchemeObject elemlist;
+
+start with s;
+
+s ::= datlist DOLLAR ;
+datlist ::=  datlist datum:d 
+		{: RunEnv.root=d; 
+                   System.out.print("::> ");
+		   (RunEnv.root).print();
+		   System.out.println("");
+		   RunEnv.root=((RunEnv.root).expand()); 
+		   ((RunEnv.root).eval()).print(); 
+		   System.out.println(""); 
+		   System.out.println("");   :} 
+	| datum:d 
+		{: RunEnv.root=d; 
+                   System.out.print("::> ");
+		   (RunEnv.root).print();
+		   System.out.println("");
+		   RunEnv.root=((RunEnv.root).expand()); 
+		   ((RunEnv.root).eval()).print(); 
+		   System.out.println("");
+		   System.out.println("");   :} 
+	;
+
+datum 	::= QUOT uqdat:qd
+		{: RESULT = new Pair((SchemeObject)RunEnv.interns("quote"),
+		new Pair((SchemeObject)qd,RunEnv.nilval));	:}	
+        | QUASIQUOT uqdat:qd
+		{: RESULT = new Pair((SchemeObject)RunEnv.interns("quasiquote"),
+		new Pair((SchemeObject)qd,RunEnv.nilval));	:}
+	| UNQUOT uqdat:qd
+		{: RESULT = new Pair((SchemeObject)RunEnv.interns("unquote"),
+		new Pair((SchemeObject)qd,RunEnv.nilval));	:}	
+	| uqdat:ud
+		{: RESULT=ud;	:}
+	;	
+
+uqdat 	::=	BOOLEAN:bool   {: if (bool.equals("#t"))
+                                     RESULT=RunEnv.bTrue;
+                                  else
+                                     RESULT=RunEnv.bFalse; :}
+	|	NUMBER:n  {: RESULT=new SchemeInteger(n); :}
+	|	DOUBLE:d  {: RESULT=new SchemeDouble(d); :}
+	|	CHARACTER
+	|	STRING:s  {: RESULT=new SchemeString(s); :}
+	|	SYMBOL:sy {: int index = RunEnv.hash(sy,31); 
+                             Symbol sn1;
+                             if (RunEnv.hashtab[index] != null)
+               			{ SchemeObject x = 
+				  RunEnv.checkbucket(sy,RunEnv.hashtab[index]);
+                             	  if (x == null) {
+                                	sn1 = new Symbol(sy);
+                     			RunEnv.hashtab[index]=
+					(RunEnv.hashtab[index]).cons(sn1);
+				     } 
+				  else {
+                                      if (x instanceof Symbol){
+                                         sn1=(Symbol)x;	
+                                         }
+                                      else { 
+                                           sn1 = new Symbol(sy);
+                     			   RunEnv.hashtab[index]=
+					     (RunEnv.hashtab[index]).cons(sn1);
+                                      }
+                                  }
+                                }  
+			      else {
+                                  sn1 = new Symbol(sy);
+                                  RunEnv.hashtab[index]=
+					(RunEnv.nilval).cons(sn1);
+				}
+                             RESULT=sn1; :}
+	|	list:li   {: RESULT=li; :}
+	|	vector
+	;
+
+list	::=	LPAREN rest:re {: RESULT=re; :}
+	;
+rest	::=     RPAREN         {: RESULT=new Pair(); :}
+	|	inhalt:i       {: RESULT=i; :} RPAREN
+	;
+inhalt	::=	datum:da inrest:ir {: RESULT=new Pair(da,ir); :}
+	;
+inrest	::=	inhalt:in      {: RESULT=in; :} 
+	|	DOT datum:da   {: RESULT=da; :} 
+	|	               {: RESULT=new Pair(); :}
+	;
+vector  ::=     VBEGIN elemlist RPAREN
+        ;
+elemlist ::=    datum elemlist
+        |
+        ;

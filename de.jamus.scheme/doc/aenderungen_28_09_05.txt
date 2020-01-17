@@ -1,0 +1,406 @@
+in scheme0.lex
+==============
+Problem: Falsche Auswertung bei negativen Doublezahlen
+------------------------------------------------------
+(* -0.5 3)   -> (* 0 0.5 3)
+(+ -0.2 1)   -> (+ -1 0.2 1)
+(+ 1.2 -0.2) -> (+ 1.2 0 0.2)
+
+Aenderung
+--------
+von
+---
+decimal10=\.{digit}+|{digit}+\.{digit}+
+real10={sign}?{decimal10}
+
+nach
+----
+real10={sign}?\.{digit}+|{sign}?{digit}+\.{digit}+
+
+jetzt Auswertung Ausdrücke richtig
+----------------------------------
+(* -0.5 3)   -> (* -0.5 3)
+(+ -0.2 1)   -> (+ -0.2 1)
+(+ 1.2 -0.2) -> (+ 1.2 -0.2)
+
+
+Scheme.Double.java
+==================
+Aenderung
+---------
+von
+---
+
+    public SchemeBoolean integerp (){
+	    return RunEnv.bFalse;
+    }
+
+nach
+----
+    public SchemeBoolean integerp (){
+	if(this.dvalue == (Math.round(this.dvalue)))
+	    return RunEnv.bTrue;
+	else
+	    return RunEnv.bFalse;
+    }
+
+Pair.java
+=========
+Aenderung
+---------
+von
+---
+  public SchemeNumber iminus() { 
+	// Subtraktion (mind. 1 Parameter) 
+	// (falls 2 Parameter: Ergebnis = Parameter1 - Parameter2, 
+	//  falls mehr als 2 Parameter verfuegbar sind: 
+	//  Ergebnis = Arg1 - Arg2 - Arg3 - ..., 
+	//  falls nur 1 Parameter: Ergebnis = Negation des Parameters, 
+	//  falls kein Parameter uebergeben, wird vorerst 0 zurueckgegeben, 
+	//  bis Fehler anders abgefangen wird) 
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    int minuend; 
+	    minuend = ((SchemeNumber)car()).value; 
+	    Pair x = (Pair)cdr();  // Rest der Liste 
+	    if( ! x.nullp() )   // mehr als 1 Parameter uebergeben ? 
+		{ 
+		    while( ! x.nullp() ) { 
+			minuend -= ((SchemeNumber)((Pair)x).car()).value; 
+			x = (Pair)((Pair)x).cdr();  // Rest der Liste 
+		    } 
+		} 
+	    else   // falls nur 1 Argument vorhanden
+		{ 
+		    minuend = -1 * minuend;  // Negation 
+		} 
+	    res = new SchemeNumber(new Integer(minuend)); 
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeNumber(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+nach
+----
+  public SchemeNumber iminus() { 
+	// Subtraktion (mind. 1 Parameter) 
+	// (falls 2 Parameter: Ergebnis = Parameter1 - Parameter2, 
+	//  falls mehr als 2 Parameter verfuegbar sind: 
+	//  Ergebnis = Arg1 - Arg2 - Arg3 - ..., 
+	//  falls nur 1 Parameter: Ergebnis = Negation des Parameters, 
+	//  falls kein Parameter uebergeben, wird vorerst 0 zurueckgegeben, 
+	//  bis Fehler anders abgefangen wird)
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    SchemeNumber minuend = ((SchemeNumber)car()); 
+	    Pair x = (Pair)cdr();  // Rest der Liste 
+	    if( ! x.nullp() )   // mehr als 1 Parameter uebergeben ? 
+		{ 
+		    while( ! x.nullp() ) {
+			SchemeObject nu = ((Pair)x).car();
+			if (minuend instanceof SchemeInteger)
+			    if (nu instanceof SchemeInteger)
+				minuend = new SchemeInteger(new Integer(((SchemeInteger)minuend).ivalue - ((SchemeInteger)nu).ivalue));
+			    else
+				minuend = new SchemeDouble(new Double(((SchemeInteger)minuend).dvalue - ((SchemeDouble)nu).dvalue));
+			else
+			    if (nu instanceof SchemeInteger)
+				minuend = new SchemeDouble(new Double(((SchemeDouble)minuend).dvalue - ((SchemeInteger)nu).ivalue));
+			    else
+				minuend = new SchemeDouble(new Double(((SchemeDouble)minuend).dvalue - ((SchemeDouble)nu).dvalue));
+			x = (Pair)((Pair)x).cdr();  // Rest der Liste 
+		    } 
+		} 
+	    else   // falls nur 1 Argument vorhanden
+		{ 
+		    if (minuend instanceof SchemeInteger)
+			minuend = new SchemeInteger(new Integer(-1 * ((SchemeInteger)minuend).ivalue));  // Negation 
+		    else
+			minuend = new SchemeDouble(new Double(-1 * ((SchemeDouble)minuend).dvalue));  // Negation 
+		}
+	    if (minuend instanceof SchemeInteger)
+		res = new SchemeInteger(new Integer(((SchemeInteger)minuend).ivalue));
+	    else
+		res = new SchemeDouble(new Double(((SchemeDouble)minuend).dvalue));
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeInteger(new Integer(0)); 
+	    } 
+	return res; 
+    }
+
+von
+---
+    public SchemeNumber idivision() {
+	// Division (mind. 1 Parameter) 
+	// (falls 2 Parameter: Ergebnis = Parameter1 / Parameter2, 
+	//  falls mehr als 2 Parameter verfuegbar sind: 
+	//  Ergebnis = Arg1 / Arg2 / Arg3 / ... 
+	//  falls nur 1 Parameter: Ergebnis = 1 / Parameterwert, 
+	//  falls kein Parameter uebergeben, wird vorerst 0 zurueckgegeben, 
+	//  bis Fehler anders abgefangen wird) 
+	// (bei Division durch Null wird 0 zurueckgegeben)
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    int divident, divisor; 
+	    divident = ((SchemeNumber)car()).value; 
+	    Pair x = (Pair)cdr();  // Rest der Liste 
+	    if( ! x.nullp() )   // mehr als 1 Parameter uebergeben ? 
+		{ 
+		    while( ! x.nullp() ) 
+			{ 
+			    divisor = ((SchemeNumber)((Pair)x).car()).value; 
+			    if( divisor != 0 ) 
+				{ 
+				    divident /= divisor; 
+				    x = (Pair)((Pair)x).cdr(); 
+				} 
+			    else  // Division durch Null 
+				{ 
+				    divident = 0; 
+				    break;   // Berechnung (while) abbrechen 
+				} 
+			} 
+		} 
+	    else  // falls nur 1 Parameter uebergeben wurde 
+		{ 
+		    if( divident != 0 ) { 
+			divident = 1 / divident; 
+		    } 
+		    else  // Division durch Null 
+			{ 
+			    divident = 0; 
+			} 
+		} 
+	    res = new SchemeNumber(new Integer(divident)); 
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeNumber(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+nach
+----
+       public SchemeNumber idivision() {
+	// Division (mind. 1 Parameter) 
+	// (falls 2 Parameter: Ergebnis = Parameter1 / Parameter2, 
+	//  falls mehr als 2 Parameter verfuegbar sind: 
+	//  Ergebnis = Arg1 / Arg2 / Arg3 / ... 
+	//  falls nur 1 Parameter: Ergebnis = 1 / Parameterwert, 
+	//  falls kein Parameter uebergeben, wird vorerst 0 zurueckgegeben, 
+	//  bis Fehler anders abgefangen wird) 
+	// (bei Division durch Null wird 0 zurueckgegeben)
+	SchemeNumber res;  // Returnwert 
+	double divisor_i;
+	if( ! nullp() ) { 
+	    SchemeNumber divident, divisor; 
+	    divident = ((SchemeNumber)car()); 
+	    Pair x = (Pair)cdr();  // Rest der Liste 
+	    if( ! x.nullp() )   // mehr als 1 Parameter uebergeben ? 
+		{ 
+		    while( ! x.nullp() ) 
+			{ 
+			    divisor = ((SchemeNumber)((Pair)x).car());
+
+			    if(divisor instanceof SchemeInteger)
+				divisor_i = ((SchemeInteger)divisor).ivalue;
+			    else
+				divisor_i = ((SchemeDouble)divisor).dvalue;
+
+			    if( divisor_i != 0 ) 
+				{ 
+				    if (divident instanceof SchemeInteger)
+					if (divisor instanceof SchemeInteger)
+					    {
+						divident = new SchemeDouble(new Double((double)((SchemeInteger)divident).ivalue / (double)((SchemeInteger)divisor).ivalue)); // wenn beide Zahlen int dann (double) notwendig sonst falsche Ergebnis
+						
+						//ganzzahligkeit pruefen
+						if(((SchemeDouble)divident).dvalue == (Math.round(((SchemeDouble)divident).dvalue)))
+						    divident = new SchemeInteger(new Integer((new Double(((SchemeDouble)divident).dvalue).intValue()))); 
+					    }
+					else
+					    divident = new SchemeDouble(new Double(((SchemeInteger)divident).ivalue / ((SchemeDouble)divisor).dvalue));
+				    else
+					if (divisor instanceof SchemeInteger)
+					    divident = new SchemeDouble(new Double(((SchemeDouble)divident).dvalue / ((SchemeInteger)divisor).ivalue));
+					else
+					    divident = new SchemeDouble(new Double(((SchemeDouble)divident).dvalue / ((SchemeDouble)divisor).dvalue));
+				    x = (Pair)((Pair)x).cdr(); 
+				} 
+			    else  // Division durch Null 
+				{ 
+				    divident = new SchemeInteger(new Integer(0)); 
+				    break;   // Berechnung (while) abbrechen 
+				} 
+			} 
+		} 
+	    else  // falls nur 1 Parameter uebergeben wurde 
+		{ 
+		    if (divident instanceof SchemeInteger)
+			if( ((SchemeInteger)divident).ivalue != 0 ) { 
+			    divident = new SchemeDouble(new Double((double)1 / (double)((SchemeInteger)divident).ivalue));
+
+			    //ganzzahligkeit pruefen
+			    if(((SchemeDouble)divident).dvalue == (Math.round(((SchemeDouble)divident).dvalue)))
+				{
+				    divident = new SchemeInteger(new Integer((new Double(((SchemeDouble)divident).dvalue).intValue()))); 
+				}
+			} 
+			else  // Division durch Null 
+			    { 
+				divident = new SchemeInteger(new Integer(0)); 
+			    }
+		    else
+			if( ((SchemeDouble)divident).dvalue != 0 ) { 
+			    divident = new SchemeDouble(new Double(1 / ((SchemeDouble)divident).dvalue)); 
+			} 
+			else  // Division durch Null 
+			    { 
+				divident = new SchemeInteger(new Integer(0)); 
+			    }
+		}
+	    if(divident instanceof SchemeInteger)
+		res = new SchemeInteger(new Integer(((SchemeInteger)divident).ivalue));
+	    else
+		res = new SchemeDouble(new Double(((SchemeDouble)divident).dvalue));
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		res = new SchemeInteger(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+von
+---
+    public SchemeNumber itimes(){
+        Pair x = this;
+        SchemeNumber res = new SchemeNumber(new Integer(1));
+        while(! x.nullp()){
+	    res = new SchemeNumber(new Integer(res.value * 
+				   ((SchemeNumber)((Pair)x).car()).value));
+            x = (Pair)((Pair)x).cdr();
+	}
+	return res;
+    }
+
+nach
+----
+    public SchemeNumber itimes(){
+        Pair x = this;
+        SchemeNumber res = new SchemeInteger(new Integer(1));
+        while(! x.nullp()){
+	    SchemeObject nu = ((Pair)x).car();
+            if (res instanceof SchemeInteger)
+		if (nu instanceof SchemeInteger)
+		    res = new SchemeInteger(new Integer(((SchemeInteger)res).ivalue * ((SchemeInteger)nu).ivalue));
+		else
+		    res = new SchemeDouble(new Double(((SchemeInteger)res).ivalue * ((SchemeDouble)nu).dvalue));
+	    else
+		if (nu instanceof SchemeInteger)
+		    res = new SchemeDouble(new Double(((SchemeDouble)res).dvalue * ((SchemeInteger)nu).ivalue));
+		else
+		    res = new SchemeDouble(new Double(((SchemeDouble)res).dvalue * ((SchemeDouble)nu).dvalue));
+            x = (Pair)((Pair)x).cdr();
+	}
+	return res;
+    }
+
+von
+---
+    public SchemeNumber quotient() {
+	SchemeNumber res;  // Returnwert 
+	if( ! nullp() ) { 
+	    int divident, divisor, quotient; 
+	    divident = ((SchemeNumber)car()).value; 
+	    Pair x = (Pair)cdr();  // Rest der Liste 
+	    if( ! x.nullp() )   // mehr als 1 Parameter uebergeben ? 
+		{ 
+		    divisor = ((SchemeNumber)((Pair)x).car()).value; 
+		    if( divisor != 0 ) 
+			{ 
+			    quotient = divident / divisor; 
+			} 
+		    else  // Division durch Null 
+			{ 
+			    System.out.print("Fehler: (quotient ");
+		            System.out.print(divident);
+                            System.out.println(" 0)");
+			    quotient = 0;
+			} 
+		} 
+	    else  // falls nur 1 Parameter uebergeben wurde 
+		{ 
+		    System.out.println("Fehler: Falsche Anzahl Paramter");
+		    quotient = 0;
+		} 
+	    res = new SchemeNumber(new Integer(quotient)); 
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		System.out.println("Fehler: Falsche Anzahl Paramter");
+		res = new SchemeNumber(new Integer(0)); 
+	    } 
+	return res; 
+    } 
+
+nach
+----
+    public SchemeNumber quotient() {
+	SchemeNumber res;  // Returnwert 
+	double divisor_i;
+	if( ! nullp() ) { 
+	    SchemeNumber divident, divisor;
+	    SchemeInteger quotient; 
+	    divident = ((SchemeNumber)car()); 
+	    Pair x = (Pair)cdr();  // Rest der Liste 
+	    if( ! x.nullp() )   // mehr als 1 Parameter uebergeben ? 
+		{ 
+		    divisor = ((SchemeNumber)((Pair)x).car());
+		    
+		    if(divisor instanceof SchemeInteger)
+			divisor_i = ((SchemeInteger)divisor).ivalue;
+		    else
+			divisor_i = ((SchemeDouble)divisor).dvalue;
+		    
+		    if( divisor_i != 0 ) 
+				{ 
+				    if (divident instanceof SchemeInteger)
+					if (divisor instanceof SchemeInteger)
+					    quotient = new SchemeInteger(new Integer (((SchemeInteger)divident).ivalue / ((SchemeInteger)divisor).ivalue));
+					else
+					    quotient = new SchemeInteger(new Integer (new Double(((SchemeInteger)divident).ivalue / ((SchemeDouble)divisor).dvalue).intValue()));
+				    else
+					if (divisor instanceof SchemeInteger)
+					    quotient = new SchemeInteger(new Integer (new Double(((SchemeDouble)divident).dvalue / ((SchemeInteger)divisor).ivalue).intValue()));
+					else
+					    quotient = new SchemeInteger(new Integer (new Double(((SchemeDouble)divident).dvalue / ((SchemeDouble)divisor).dvalue).intValue()));
+				} 
+		    else  // Division durch Null 
+			{ 
+			    System.out.print("Fehler: (quotient ");
+		            System.out.print(divident);
+                            System.out.println(" 0)");
+			    quotient = new SchemeInteger(new Integer(0));
+			} 
+		} 
+	    else  // falls nur 1 Parameter uebergeben wurde 
+		{ 
+		    System.out.println("Fehler: Falsche Anzahl Paramter");
+		    quotient = new SchemeInteger(new Integer(0));
+		} 
+	    res = new SchemeInteger(new Integer(((SchemeInteger)quotient).ivalue)); 
+	} 
+	else  // falls kein Parameter uebergeben wurde 
+	    { 
+		System.out.println("Fehler: Falsche Anzahl Paramter");
+		res = new SchemeInteger(new Integer(0)); 
+	    } 
+	return res; 
+    } 

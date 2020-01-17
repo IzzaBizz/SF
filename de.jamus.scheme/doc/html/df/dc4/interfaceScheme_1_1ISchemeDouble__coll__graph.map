@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$d6/d90/interfaceScheme_1_1ISchemeNumber.html" title="{Scheme.ISchemeNumber\n||+ numberp()\l+ numberstring()\l+ positivep()\l+ zerop()\l+ negativep()\l}" alt="" coords="18,281,191,426"/>
+<area shape="rect" id="node6" href="$d1/d27/interfaceScheme_1_1ISchemeReal.html" title="{Scheme.ISchemeReal\n||+ realp()\l}" alt="" coords="27,475,182,557"/>
+<area shape="rect" id="node9" href="$d4/d98/interfaceScheme_1_1ISchemeInteger.html" title="{Scheme.ISchemeInteger\n||+ integerp()\l}" alt="" coords="206,475,374,557"/>
+<area shape="rect" id="node4" href="$d7/d97/interfaceScheme_1_1ISchemeObject.html" title="{Scheme.ISchemeObject\n||+ expand()\l+ expandall()\l+ eval()\l+ nullp()\l+ cons()\l+ eqp()\l+ equalp()\l+ sprint()\l+ printp()\l+ print()\l}" alt="" coords="22,6,187,231"/>
+</map>

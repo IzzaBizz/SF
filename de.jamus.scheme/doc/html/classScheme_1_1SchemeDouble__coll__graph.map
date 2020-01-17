@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$classScheme_1_1SchemeNumber.html" title="Scheme.SchemeNumber" alt="" coords="5,161,176,189"/>
+<area shape="rect" id="node4" href="$classScheme_1_1SchemeObject.html" title="Scheme.SchemeObject" alt="" coords="9,83,172,111"/>
+<area shape="rect" id="node6" href="$interfaceScheme_1_1ISchemeObject.html" title="Scheme.ISchemeObject" alt="" coords="104,6,269,34"/>
+<area shape="rect" id="node8" href="$interfaceScheme_1_1ISchemeNumber.html" title="Scheme.ISchemeNumber" alt="" coords="196,83,369,111"/>
+<area shape="rect" id="node11" href="$interfaceScheme_1_1ISchemeDouble.html" title="Scheme.ISchemeDouble" alt="" coords="187,238,355,266"/>
+<area shape="rect" id="node14" href="$interfaceScheme_1_1ISchemeReal.html" title="Scheme.ISchemeReal" alt="" coords="251,161,405,189"/>
+<area shape="rect" id="node17" href="$interfaceScheme_1_1ISchemeInteger.html" title="Scheme.ISchemeInteger" alt="" coords="429,161,597,189"/>
+</map>

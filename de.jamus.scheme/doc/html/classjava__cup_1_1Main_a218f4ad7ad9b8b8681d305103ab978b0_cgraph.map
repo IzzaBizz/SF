@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classjava__cup_1_1non__terminal.html#a98b602c91cc8f9145a9461a250c1ea26" title="java_cup.non_terminal.number" alt="" coords="253,5,459,33"/>
+<area shape="rect" id="node5" href="$classjava__cup_1_1lalr__state.html#ada0e039a8b6dc81f861863c9936ceed8" title="java_cup.lalr_state.number" alt="" coords="265,55,447,83"/>
+<area shape="rect" id="node7" href="$classjava__cup_1_1terminal.html#a01a022956c88b37b14e1dcb444693ab2" title="java_cup.terminal.number" alt="" coords="268,106,444,134"/>
+<area shape="rect" id="node9" href="$classjava__cup_1_1production.html#a01df38e47e0c0f55d064db92a26622ec" title="java_cup.production.number" alt="" coords="261,157,451,185"/>
+<area shape="rect" id="node11" href="$classjava__cup_1_1Main.html#acb6ccfb21bf470da602b32fc5e7ab261" title="java_cup.Main.plural" alt="" coords="284,207,428,235"/>
+<area shape="rect" id="node13" href="$classjava__cup_1_1Main.html#a11dbd9bdcf4e84fed138d5c0cf342c39" title="java_cup.Main.show_times" alt="" coords="265,258,447,286"/>
+<area shape="rect" id="node15" href="$classjava__cup_1_1Main.html#a5875d6065f2406410fa4806b40e1b7fa" title="java_cup.Main.timestr" alt="" coords="508,258,660,286"/>
+</map>

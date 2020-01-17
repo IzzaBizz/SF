@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classjava__cup_1_1runtime_1_1lr__parser.html#a9d6b781605eaf4132d13c99887dd2b57" title="java_cup.runtime.lr_parser.error_sync_size" alt="" coords="344,5,621,33"/>
+<area shape="rect" id="node5" href="$classjava__cup_1_1runtime_1_1lr__parser.html#afa8e3e5d29327dfc650732df33bac8db" title="java_cup.runtime.lr_parser.scan" alt="" coords="377,55,588,83"/>
+<area shape="rect" id="node7" href="$classjava__cup_1_1runtime_1_1lr__parser.html#a66a1de616d1c1f4638e77213d533257c" title="java_cup.runtime.lr_parser.getScanner" alt="" coords="671,30,921,58"/>
+<area shape="rect" id="node9" href="$interfacejava__cup_1_1runtime_1_1Scanner.html#ad59f835f63e6db1388014c0f536b214e" title="java_cup.runtime.Scanner.next_token" alt="" coords="673,81,919,109"/>
+</map>

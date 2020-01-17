@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$da/d90/classScheme_1_1StElem.html" title="{Scheme.StElem\n|# pname\l# value\l# toplevelvalue\l# next\l&#45; mode\l|+ StElem()\l+ StElem()\l+ getPname()\l+ setPname()\l+ getValue()\l+ setValue()\l+ getToplevelValue()\l+ setToplevelValue()\l+ eval()\l+ symbolstring()\l+ sprint()\l+ print()\l+ printp()\l# setModeToAssigned()\l# setModeToUnassigned()\l# setModeToImplemented()\l# setModeToUnimplemented()\l# isModeSetTo()\l}" alt="" coords="5,555,205,973"/>
+<area shape="rect" id="node4" href="$d7/db8/classScheme_1_1SchemeObject.html" title="{Scheme.SchemeObject\n|~ value\l|+ expand()\l+ expandall()\l+ eval()\l+ cons()\l+ sprint()\l+ print()\l+ printp()\l+ eqp()\l+ equalp()\l+ nullp()\l}" alt="" coords="67,281,229,506"/>
+<area shape="rect" id="node6" href="$d7/d97/interfaceScheme_1_1ISchemeObject.html" title="{Scheme.ISchemeObject\n||+ expand()\l+ expandall()\l+ eval()\l+ nullp()\l+ cons()\l+ eqp()\l+ equalp()\l+ sprint()\l+ printp()\l+ print()\l}" alt="" coords="135,6,300,231"/>
+<area shape="rect" id="node8" href="$df/d39/interfaceScheme_1_1ISchemeString.html" title="{Scheme.ISchemeString\n||+ stringsymbol()\l}" alt="" coords="229,723,392,805"/>
+</map>

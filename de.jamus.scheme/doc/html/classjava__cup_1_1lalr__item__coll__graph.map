@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$classjava__cup_1_1lr__item__core.html" title="java_cup.lr_item_core" alt="" coords="324,286,476,314"/>
+<area shape="rect" id="node4" href="$classjava__cup_1_1symbol.html" title="java_cup.symbol" alt="" coords="5,6,128,34"/>
+<area shape="rect" id="node8" href="$classjava__cup_1_1symbol__part.html" title="java_cup.symbol_part" alt="" coords="71,99,223,127"/>
+<area shape="rect" id="node6" href="$classjava__cup_1_1production.html" title="java_cup.production" alt="" coords="329,193,471,221"/>
+<area shape="rect" id="node10" href="$classjava__cup_1_1production__part.html" title="java_cup.production_part" alt="" coords="185,6,356,34"/>
+<area shape="rect" id="node20" href="$classjava__cup_1_1action__part.html" title="java_cup.action_part" alt="" coords="327,99,473,127"/>
+<area shape="rect" id="node15" href="$classjava__cup_1_1terminal__set.html" title="java_cup.terminal_set" alt="" coords="604,99,756,127"/>
+</map>

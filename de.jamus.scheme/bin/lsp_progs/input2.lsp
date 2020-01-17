@@ -1,0 +1,20 @@
+(define move (lambda(a b)(cons (quote lege>) (cons a (cons b ())))))
+(define hanoi (lambda(a b c)
+  (if (null?(cdr(cdr a)))
+        (move a b)
+     (begin (hanoi (cons (car a)(cdr(cdr a))) c b)
+            (move a b)
+            (hanoi (append c (cdr(cdr a))) b (cons (car a) ()))))))
+(hanoi (quote(A 3 2 1)) (quote(B)) (quote(C)))
+
+(define l '(a b c))
+(define m '(1 2 3))
+(define nconc (lambda(x y)
+(letrec((nwork (lambda(xx yy)
+		(cond((null? xx)'())
+		     ((null? (cdr xx)) (set-cdr! xx yy))
+		     (else (nwork (cdr xx) yy))))))
+	(nwork x y)x)))
+(nconc l m)
+l
+]

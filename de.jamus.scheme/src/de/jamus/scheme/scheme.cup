@@ -1,0 +1,77 @@
+package Scheme;
+
+import java_cup.runtime.*;
+
+/* Scheme Parser Specification for CUP.  
+ * Copyright (C) 2001 Hartmut Fritzsche <fritzsche@informatik.htw-dresden.de>
+ * There is NO WARRANTY on this code.
+ */
+
+parser code  {: 
+  Lexer lexer;
+
+  public Grm(Lexer l) {
+    this();
+    lexer=l;
+  }
+
+  public void syntax_error(java_cup.runtime.Symbol current) {
+    report_error("Syntax error (" + current.sym + ")", current);
+  }
+  public void report_error(String message, java_cup.runtime.Symbol info) {
+    lexer.errorMsg(message, info);
+  }
+:};
+
+/* 
+init with {: scanner.init(); :};
+scan with {: return scanner.nextToken(); :};
+*/
+
+terminal String SYMBOL,STRING,CHARACTER,BOOLEAN; 
+terminal Integer NUMBER;
+terminal DOT;
+terminal DOLLAR, LPAREN, RPAREN, VBEGIN;
+
+
+
+non terminal s;
+non terminal SchemeObject datum;
+non terminal SchemeObject list;
+non terminal rest;
+non terminal inhalt;
+non terminal inrest;
+non terminal vector;
+non terminal elemlist;
+
+start with s;
+
+s 	::=	datum:d1 DOLLAR {: RESULT = e1 :}
+	;
+
+datum 	::=	BOOLEAN
+	|	NUMBER
+	|	CHARACTER
+	|	STRING
+	|	SYMBOL
+	|	list
+	|	vector
+	;
+
+list	::=	LPAREN rest:r2 {: RESULT = e2 :}
+	;
+rest	::=	RPAREN
+	|	inhalt RPAREN
+	;
+inhalt	::=	datum inrest
+	;
+inrest	::=	inhalt 
+	|	DOT datum
+	|	 
+	;
+vector	::=	VBEGIN elemlist RPAREN 
+	;
+elemlist ::=	datum elemlist 
+	|	 
+	;
+

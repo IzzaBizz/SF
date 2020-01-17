@@ -1,0 +1,111 @@
+package Scheme;
+
+import java_cup.runtime.*;
+import java.io.*;
+
+/* Scheme Parser Specification for CUP.  
+ * Copyright (C) 2001 Hartmut Fritzsche <fritzsche@informatik.htw-dresden.de>
+ * There is NO WARRANTY on this code.
+ */
+
+parser code  {: 
+
+  public static void main(String args[]) throws Exception {
+    // new parser(new Yylex(System.in)).parse();
+    File textFile;
+    textFile=new File(args[0]);
+    InputStream in;	
+    in= new FileInputStream(textFile);
+    new parser(new Yylex(new BufferedInputStream((InputStream)in))).parse();	
+  }
+  public void syntax_error(java_cup.runtime.Symbol current) {
+    report_error("Syntax error (" + current.sym + ")", current);
+  }
+  
+:};
+
+
+/*
+init with {: new Yylex(System.in).init(); :};
+scan with {: return new Yylex(System.in).next_token(); :};
+*/
+
+terminal String SYMBOL,STRING,CHARACTER,BOOLEAN; 
+terminal Integer NUMBER;
+terminal DOT;
+terminal DOLLAR, LPAREN, RPAREN, VBEGIN;
+
+non terminal s;
+non terminal SchemeObject datlist;
+non terminal SchemeObject datum;
+non terminal SchemeObject list;
+non terminal SchemeObject rest;
+non terminal SchemeObject inhalt;
+non terminal SchemeObject inrest;
+non terminal SchemeObject vector;
+non terminal SchemeObject elemlist;
+
+start with s;
+
+s ::= datlist:dali DOLLAR 
+	        {: RunEnv.root=dali; :}
+        ;	
+datlist ::=  datlist:datli datum:d 
+		{: d=d.expand();
+	           RESULT=new Pair(d,datli); :} 
+	| datum:d 
+		{: d=d.expand();
+                   RESULT=new Pair(d,new Pair()); :} 
+	;
+
+datum 	::=	BOOLEAN
+	|	NUMBER:n  {: RESULT=new SchemeNumber(n); :}
+	|	CHARACTER
+	|	STRING
+	|	SYMBOL:sy {: int index = RunEnv.hash(sy,31); 
+                             Symbol sn1;
+                             if (RunEnv.hashtab[index] != null)
+               			{ SchemeObject x = 
+				  RunEnv.checkbucket(sy,RunEnv.hashtab[index]);
+                             	  if (x == null) {
+                                	sn1 = new Symbol(sy);
+                     			RunEnv.hashtab[index]=
+					(RunEnv.hashtab[index]).cons(sn1);
+				     } 
+				  else {
+                                      if (x instanceof Symbol){
+                                         sn1=(Symbol)x;	
+                                         }
+                                      else { 
+                                           sn1 = new Symbol(sy);
+                     			   RunEnv.hashtab[index]=
+					     (RunEnv.hashtab[index]).cons(sn1);
+                                      }
+                                  }
+                                }  
+			      else {
+                                  sn1 = new Symbol(sy);
+                                  RunEnv.hashtab[index]=
+					(RunEnv.nilval).cons(sn1);
+				}
+                             RESULT=sn1; :}
+	|	list:li   {: RESULT=li; :}
+	|	vector
+	;
+
+list	::=	LPAREN rest:re {: RESULT=re; :}
+	;
+rest	::=     RPAREN         {: RESULT=new Pair(); :}
+	|	inhalt:i       {: RESULT=i; :} RPAREN
+	;
+inhalt	::=	datum:da inrest:ir {: RESULT=new Pair(da,ir); :}
+	;
+inrest	::=	inhalt:in      {: RESULT=in; :} 
+	|	DOT datum:da   {: RESULT=da; :} 
+	|	               {: RESULT=new Pair(); :}
+	;
+vector  ::=     VBEGIN elemlist RPAREN
+        ;
+elemlist ::=    datum elemlist
+        |
+        ;

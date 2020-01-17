@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classScheme_1_1Function.html" title="Scheme.Function" alt="" coords="241,5,367,33"/>
+<area shape="rect" id="node5" href="$classScheme_1_1Pair.html" title="Scheme.Pair" alt="" coords="255,55,353,83"/>
+<area shape="rect" id="node8" href="$classScheme_1_1SchemeBoolean.html" title="Scheme.SchemeBoolean" alt="" coords="219,106,389,134"/>
+<area shape="rect" id="node10" href="$classScheme_1_1SchemeDouble.html" title="Scheme.SchemeDouble" alt="" coords="440,207,605,235"/>
+<area shape="rect" id="node12" href="$classScheme_1_1SchemeInteger.html" title="Scheme.SchemeInteger" alt="" coords="653,182,819,210"/>
+<area shape="rect" id="node14" href="$classScheme_1_1SchemeFunction.html" title="Scheme.SchemeFunction" alt="" coords="217,258,391,286"/>
+<area shape="rect" id="node17" href="$classScheme_1_1SchemeNumber.html" title="Scheme.SchemeNumber" alt="" coords="219,309,389,337"/>
+<area shape="rect" id="node20" href="$classScheme_1_1SchemePort.html" title="Scheme.SchemePort" alt="" coords="231,359,377,387"/>
+<area shape="rect" id="node22" href="$classScheme_1_1SchemeString.html" title="Scheme.SchemeString" alt="" coords="225,410,383,438"/>
+<area shape="rect" id="node24" href="$classScheme_1_1Symbol.html" title="Scheme.Symbol" alt="" coords="244,461,364,489"/>
+</map>

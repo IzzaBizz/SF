@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classjava__cup_1_1nonassoc__action.html" title="java_cup.nonassoc_action" alt="" coords="5,83,184,111"/>
+<area shape="rect" id="node5" href="$classjava__cup_1_1reduce__action.html" title="java_cup.reduce_action" alt="" coords="208,83,371,111"/>
+<area shape="rect" id="node7" href="$classjava__cup_1_1shift__action.html" title="java_cup.shift_action" alt="" coords="395,83,541,111"/>
+</map>
