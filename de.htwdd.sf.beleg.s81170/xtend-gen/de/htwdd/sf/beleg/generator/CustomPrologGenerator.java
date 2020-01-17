@@ -47,7 +47,7 @@ public class CustomPrologGenerator extends AbstractGenerator {
     String _text_1 = text;
     text = (_text_1 + "\n]");
     InputOutput.<String>println(text);
-    fsa.generateFile("prolog_s68407s72851.lsp", text);
+    fsa.generateFile("prolog_s81170.lsp", text);
   }
   
   public String transpileList(final List l) {

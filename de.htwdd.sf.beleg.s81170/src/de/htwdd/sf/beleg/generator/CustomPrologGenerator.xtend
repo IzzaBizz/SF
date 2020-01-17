@@ -32,7 +32,7 @@ class CustomPrologGenerator extends AbstractGenerator {
 			text += e.transpile + " "
 		text += "\n]"
 		println(text)
-		fsa.generateFile("prolog_s68407s72851.lsp", text)
+		fsa.generateFile("prolog_s81170.lsp", text)
 	}
 
 	def transpileList(List l) {

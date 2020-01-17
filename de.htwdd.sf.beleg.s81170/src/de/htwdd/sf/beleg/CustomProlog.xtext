@@ -61,15 +61,15 @@ Folge:
 	atom+=Atom (',' atom+=Atom)*
 ;
 
-terminal IDENT:
+terminal IDENT: //Muss mit Kleinbuchstaben beginnen
 	('a'..'z')('a'..'z'|'A'..'Z'|'_'|'0'..'9')*	
 ;
 
 
-terminal VARIABLE:
+terminal VARIABLE: //Einzelne Großsbuchstaben
 	('A'..'Z')	
 ;
 
-terminal NUMBER:
+terminal NUMBER: //number entsprechen INT
 	INT
 ;
