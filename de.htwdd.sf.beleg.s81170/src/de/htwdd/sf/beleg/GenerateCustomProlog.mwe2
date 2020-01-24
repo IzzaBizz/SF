@@ -10,7 +10,7 @@ Workflow {
 	component = XtextGenerator {
 		configuration = {
 			project = StandardProjectConfig {
-				baseName = "de.htwdd.sf.beleg.s68407s72851"
+				baseName = "de.htwdd.sf.beleg.s81170"
 				rootPath = rootPath
 				runtimeTest = {
 					enabled = true

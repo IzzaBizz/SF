@@ -17,35 +17,35 @@
    </license>
 
    <plugin
-         id="de.htwdd.sf.beleg.s68407s72851.tests"
+         id="de.htwdd.sf.beleg.s81170"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="de.htwdd.sf.beleg.s68407s72851.ide"
+         id="de.htwdd.sf.beleg.s81170.ide"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="de.htwdd.sf.beleg.s68407s72851"
+         id="de.htwdd.sf.beleg.s81170.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="de.htwdd.sf.beleg.s68407s72851.ui.tests"
+         id="de.htwdd.sf.beleg.s81170.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="de.htwdd.sf.beleg.s68407s72851.ui"
+         id="de.htwdd.sf.beleg.s81170.ui.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"

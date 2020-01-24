@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: de.htwdd.sf.beleg.s68407s72851.ui.tests
+Bundle-Name: de.htwdd.sf.beleg.s81170.ui.tests
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: de.htwdd.sf.beleg.s81170.ui.tests;singleton:=true

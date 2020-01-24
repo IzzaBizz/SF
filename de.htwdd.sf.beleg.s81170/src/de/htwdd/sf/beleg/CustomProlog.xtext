@@ -2,6 +2,8 @@ grammar de.htwdd.sf.beleg.CustomProlog with org.eclipse.xtext.common.Terminals
 
 generate customProlog "http://www.htwdd.de/sf/beleg/CustomProlog"
 
+//Hier wird die Grammatik definiert
+
 Model:
 	expressions+=Prologdsl*;
 	
@@ -48,7 +50,7 @@ Atom:
 	ident=IDENT | ident=NUMBER | ident=VARIABLE
 ;
 
-List:
+List: //Listenelement
 	{List} '[]' | nonempty=NonEmptyList
 ;
 

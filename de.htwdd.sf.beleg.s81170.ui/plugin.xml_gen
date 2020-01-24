@@ -326,7 +326,7 @@
 			point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
 			class="de.htwdd.sf.beleg.ui.CustomPrologExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="de.htwdd.sf.beleg.s68407s72851.ui.customprolog.check.fast">
+			markerType="de.htwdd.sf.beleg.s81170.ui.customprolog.check.fast">
 			<attribute
 				name="FIXABLE_KEY"
 				value="true">
@@ -334,7 +334,7 @@
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
 			class="de.htwdd.sf.beleg.ui.CustomPrologExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="de.htwdd.sf.beleg.s68407s72851.ui.customprolog.check.normal">
+			markerType="de.htwdd.sf.beleg.s.ui.customprolog.check.normal">
 			<attribute
 				name="FIXABLE_KEY"
 				value="true">
@@ -342,7 +342,7 @@
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
 			class="de.htwdd.sf.beleg.ui.CustomPrologExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="de.htwdd.sf.beleg.s68407s72851.ui.customprolog.check.expensive">
+			markerType="de.htwdd.sf.beleg.s81170.ui.customprolog.check.expensive">
 			<attribute
 				name="FIXABLE_KEY"
 				value="true">
